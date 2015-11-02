@@ -16,6 +16,11 @@
 
 package com.doomonafireball.betterpickers.recurrencepicker;
 
+import com.doomonafireball.betterpickers.R;
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+
+import org.jraf.android.backport.switchwidget.Switch;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -25,6 +30,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewConfigurationCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -56,11 +62,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.doomonafireball.betterpickers.R;
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-
-import org.jraf.android.backport.switchwidget.Switch;
-
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +89,8 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
 
     private CalendarDatePickerDialog mDatePickerDialog;
 
-    private static class RecurrenceModel implements Parcelable {
+
+    private class RecurrenceModel implements Parcelable {
 
         // Should match EventRecurrence.DAILY, etc
         static final int FREQ_DAILY = 0;
@@ -111,10 +113,10 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
         /**
          * FREQ: Repeat pattern
          *
-         * @see #FREQ_DAILY
-         * @see #FREQ_WEEKLY
-         * @see #FREQ_MONTHLY
-         * @see #FREQ_YEARLY
+         * @see FREQ_DAILY
+         * @see FREQ_WEEKLY
+         * @see FREQ_MONTHLY
+         * @see FREQ_YEARLY
          */
         int freq = FREQ_WEEKLY;
 
@@ -126,9 +128,11 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
         /**
          * UNTIL and COUNT: How does the the event end?
          *
-         * @see #END_NEVER
-         * @see #END_BY_DATE
-         * @see #END_BY_COUNT
+         * @see END_NEVER
+         * @see END_BY_DATE
+         * @see END_BY_COUNT
+         * @see untilDate
+         * @see untilCount
          */
         int end;
 
@@ -150,8 +154,8 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
         /**
          * BYDAY AND BYMONTHDAY: How to repeat monthly events? Same date of the month or Same nth day of week.
          *
-         * @see #MONTHLY_BY_DATE
-         * @see #MONTHLY_BY_NTH_DAY_OF_WEEK
+         * @see MONTHLY_BY_DATE
+         * @see MONTHLY_BY_NTH_DAY_OF_WEEK
          */
         int monthlyRepeat;
 
@@ -185,17 +189,16 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
                     + monthlyByDayOfWeek + ", monthlyByNthDayOfWeek=" + monthlyByNthDayOfWeek + "]";
         }
 
-        public RecurrenceModel() {
-        }
-
         @Override
         public int describeContents() {
             return 0;
         }
 
+        public RecurrenceModel() {
+        }
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(recurrenceState);
             dest.writeInt(freq);
             dest.writeInt(interval);
             dest.writeInt(end);
@@ -208,35 +211,8 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
             dest.writeInt(monthlyByMonthDay);
             dest.writeInt(monthlyByDayOfWeek);
             dest.writeInt(monthlyByNthDayOfWeek);
+            dest.writeInt(recurrenceState);
         }
-
-        private RecurrenceModel(Parcel in) {
-            this.recurrenceState = in.readInt();
-            this.freq = in.readInt();
-            this.interval = in.readInt();
-            this.end = in.readInt();
-            this.endDate = new Time();
-            endDate.year = in.readInt();
-            endDate.month = in.readInt();
-            endDate.monthDay = in.readInt();
-            this.endCount = in.readInt();
-            this.weeklyByDayOfWeek = in.createBooleanArray();
-            this.monthlyRepeat = in.readInt();
-            this.monthlyByMonthDay = in.readInt();
-            this.monthlyByDayOfWeek = in.readInt();
-            this.monthlyByNthDayOfWeek = in.readInt();
-        }
-
-        public static final Creator<RecurrenceModel> CREATOR = new Creator<RecurrenceModel>() {
-
-            public RecurrenceModel createFromParcel(Parcel source) {
-                return new RecurrenceModel(source);
-            }
-
-            public RecurrenceModel[] newArray(int size) {
-                return new RecurrenceModel[size];
-            }
-        };
     }
 
     class minMaxTextWatcher implements TextWatcher {
@@ -1201,8 +1177,10 @@ public class RecurrencePickerDialog extends DialogFragment implements OnItemSele
             if (mDatePickerDialog != null) {
                 mDatePickerDialog.dismiss();
             }
+
+            // Todo changes..
             mDatePickerDialog = CalendarDatePickerDialog.newInstance(this, mModel.endDate.year,
-                    mModel.endDate.month, mModel.endDate.monthDay);
+                    mModel.endDate.month, mModel.endDate.monthDay, true, true);
             mDatePickerDialog.setFirstDayOfWeek(Utils.getFirstDayOfWeekAsCalendar(getActivity()));
             mDatePickerDialog.setYearRange(Utils.YEAR_MIN, Utils.YEAR_MAX);
             mDatePickerDialog.show(getFragmentManager(), FRAG_TAG_DATE_PICKER);

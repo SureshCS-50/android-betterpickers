@@ -1,5 +1,7 @@
 package com.doomonafireball.betterpickers.timepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -15,8 +17,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.doomonafireball.betterpickers.R;
 
 import java.text.DateFormatSymbols;
 

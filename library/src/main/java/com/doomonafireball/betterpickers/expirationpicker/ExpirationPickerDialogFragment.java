@@ -45,14 +45,17 @@ public class ExpirationPickerDialogFragment extends DialogFragment {
     /**
      * Create an instance of the Picker (used internally)
      *
-     * @param reference an (optional) user-defined reference, helpful when tracking multiple Pickers
-     * @param themeResId the style resource ID for theming
+     * @param reference   an (optional) user-defined reference, helpful when tracking multiple Pickers
+     * @param themeResId  the style resource ID for theming
      * @param monthOfYear (optional) zero-indexed month of year to pre-set
-     * @param year (optional) year to pre-set
+     * @param year        (optional) year to pre-set
      * @return a Picker!
      */
-    public static ExpirationPickerDialogFragment newInstance(int reference, int themeResId, Integer monthOfYear,
-            Integer year, Integer minimumYear) {
+    public static ExpirationPickerDialogFragment newInstance(int reference,
+                                                             int themeResId,
+                                                             Integer monthOfYear,
+                                                             Integer year,
+                                                             Integer minimumYear) {
         final ExpirationPickerDialogFragment frag = new ExpirationPickerDialogFragment();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, reference);
@@ -92,11 +95,9 @@ public class ExpirationPickerDialogFragment extends DialogFragment {
         if (args != null && args.containsKey(YEAR_KEY)) {
             mYear = args.getInt(YEAR_KEY);
         }
-
         if (args != null && args.containsKey(MINIMUM_YEAR_KEY)) {
             mMinimumYear = args.getInt(MINIMUM_YEAR_KEY);
         }
-
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 
         // Init defaults
@@ -121,7 +122,7 @@ public class ExpirationPickerDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.expiration_picker_dialog, null);
         mSet = (Button) v.findViewById(R.id.set_button);
@@ -178,19 +179,19 @@ public class ExpirationPickerDialogFragment extends DialogFragment {
     }
 
     /**
-     * This interface allows objects to register for the Picker's set action.
-     */
-    public interface ExpirationPickerDialogHandler {
-
-        void onDialogExpirationSet(int reference, int year, int monthOfYear);
-    }
-
-    /**
      * Attach a Vector of handlers to be notified in addition to the Fragment's Activity and target Fragment.
      *
      * @param handlers a Vector of handlers
      */
     public void setExpirationPickerDialogHandlers(Vector<ExpirationPickerDialogHandler> handlers) {
         mExpirationPickerDialogHandlers = handlers;
+    }
+
+    /**
+     * This interface allows objects to register for the Picker's set action.
+     */
+    public interface ExpirationPickerDialogHandler {
+
+        void onDialogExpirationSet(int reference, int year, int monthOfYear);
     }
 }

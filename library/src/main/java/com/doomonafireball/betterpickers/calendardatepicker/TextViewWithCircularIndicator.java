@@ -16,6 +16,8 @@
 
 package com.doomonafireball.betterpickers.calendardatepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -24,8 +26,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.widget.TextView;
-
-import com.doomonafireball.betterpickers.R;
 
 /**
  * A text view which, when pressed or activated, displays a blue circle around the text.
@@ -45,7 +45,7 @@ public class TextViewWithCircularIndicator extends TextView {
     public TextViewWithCircularIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
         Resources res = context.getResources();
-        mCircleColor = res.getColor(R.color.bpBlue);
+        mCircleColor = res.getColor(R.color.blue);
         mRadius = res.getDimensionPixelOffset(R.dimen.month_select_circle_radius);
         mItemIsSelectedText = context.getResources().getString(R.string.item_is_selected);
 

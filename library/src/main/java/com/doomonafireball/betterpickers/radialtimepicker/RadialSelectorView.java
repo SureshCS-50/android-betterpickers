@@ -16,14 +16,6 @@
 
 package com.doomonafireball.betterpickers.radialtimepicker;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.Log;
-import android.view.View;
-
 import com.doomonafireball.betterpickers.R;
 import com.doomonafireball.betterpickers.Utils;
 import com.nineoldandroids.animation.Keyframe;
@@ -31,6 +23,14 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.Log;
+import android.view.View;
 
 /**
  * View to show what number is selected. This will draw a blue circle over the number, with a blue line coming from the
@@ -40,6 +40,9 @@ public class RadialSelectorView extends View {
 
     private static final String TAG = "RadialSelectorView";
 
+    // Alpha level for selected circle.
+    private static final int SELECTED_ALPHA = Utils.SELECTED_ALPHA;
+    private static final int SELECTED_ALPHA_THEME_DARK = Utils.SELECTED_ALPHA_THEME_DARK;
     // Alpha level for the line.
     private static final int FULL_ALPHA = Utils.FULL_ALPHA;
 
@@ -99,7 +102,10 @@ public class RadialSelectorView extends View {
 
         Resources res = context.getResources();
 
+        int blue = res.getColor(R.color.blue);
+        mPaint.setColor(blue);
         mPaint.setAntiAlias(true);
+        mSelectionAlpha = SELECTED_ALPHA;
 
         // Calculate values for the circle radius size.
         mIs24HourMode = is24HourMode;
@@ -139,7 +145,7 @@ public class RadialSelectorView extends View {
 
     /* package */
     void setTheme(TypedArray themeColors) {
-        mPaint.setColor(themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpAccentColor, R.color.bpBlue));
+        mPaint.setColor(themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpAccentColor, getResources().getColor(R.color.blue)));
         mSelectionAlpha = themeColors.getInt(R.styleable.BetterPickersRadialTimePickerDialog_bpSelectionAlpha, 51);
     }
 

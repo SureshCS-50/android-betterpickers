@@ -16,6 +16,8 @@
 
 package com.doomonafireball.betterpickers.radialtimepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -23,8 +25,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
-
-import com.doomonafireball.betterpickers.R;
 
 /**
  * Draws a simple white circle on which the numbers will be drawn.
@@ -50,7 +50,7 @@ public class CircleView extends View {
         super(context);
 
         Resources res = context.getResources();
-        mCircleColor = res.getColor(R.color.bpWhite);
+        mCircleColor = res.getColor(R.color.white);
         mDotColor = res.getColor(R.color.numbers_text_color);
         mPaint.setAntiAlias(true);
 
@@ -78,9 +78,10 @@ public class CircleView extends View {
         mIsInitialized = true;
     }
 
+
     /* package */ void setTheme(TypedArray themeColors) {
-        mCircleColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor1, R.color.bpWhite);
-        mDotColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor2, R.color.numbers_text_color);
+        mCircleColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor1, getResources().getColor(R.color.white));
+        mDotColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor2, getResources().getColor(R.color.numbers_text_color));
     }
 
     @Override

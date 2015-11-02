@@ -16,24 +16,19 @@
 
 package com.doomonafireball.betterpickers.calendardatepicker;
 
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.doomonafireball.betterpickers.HapticFeedbackController;
 import com.doomonafireball.betterpickers.R;
 import com.doomonafireball.betterpickers.Utils;
@@ -55,9 +50,9 @@ public class CalendarDatePickerDialog extends DialogFragment implements
     private static final String TAG = "DatePickerDialog";
 
     private static final int UNINITIALIZED = -1;
+    private int mCurrentView = UNINITIALIZED;
     private static final int MONTH_AND_DAY_VIEW = 0;
     private static final int YEAR_VIEW = 1;
-
     private static final String KEY_SELECTED_YEAR = "year";
     private static final String KEY_SELECTED_MONTH = "month";
     private static final String KEY_SELECTED_DAY = "day";
@@ -67,22 +62,18 @@ public class CalendarDatePickerDialog extends DialogFragment implements
     private static final String KEY_YEAR_END = "year_end";
     private static final String KEY_CURRENT_VIEW = "current_view";
     private static final String KEY_LIST_POSITION_OFFSET = "list_position_offset";
-
     private static final int DEFAULT_START_YEAR = 1900;
+    private int mMinYear = DEFAULT_START_YEAR;
     private static final int DEFAULT_END_YEAR = 2100;
-
+    private int mMaxYear = DEFAULT_END_YEAR;
     private static final int ANIMATION_DURATION = 300;
     private static final int ANIMATION_DELAY = 500;
-
     private static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy", Locale.getDefault());
     private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd", Locale.getDefault());
-
     private final Calendar mCalendar = Calendar.getInstance();
     private OnDateSetListener mCallBack;
     private HashSet<OnDateChangedListener> mListeners = new HashSet<OnDateChangedListener>();
-
     private AccessibleDateAnimator mAnimator;
-
     private TextView mDayOfWeekView;
     private LinearLayout mMonthAndDayView;
     private TextView mSelectedMonthTextView;
@@ -91,13 +82,7 @@ public class CalendarDatePickerDialog extends DialogFragment implements
     private DayPickerView mDayPickerView;
     private YearPickerView mYearPickerView;
     private Button mDoneButton;
-
-    private int mCurrentView = UNINITIALIZED;
-
     private int mWeekStart = mCalendar.getFirstDayOfWeek();
-    private int mMinYear = DEFAULT_START_YEAR;
-    private int mMaxYear = DEFAULT_END_YEAR;
-
     private HapticFeedbackController mHapticFeedbackController;
 
     private boolean mDelayAnimation = true;
@@ -107,53 +92,38 @@ public class CalendarDatePickerDialog extends DialogFragment implements
     private String mSelectDay;
     private String mYearPickerDescription;
     private String mSelectYear;
-
-    /**
-     * The callback used to indicate the user is done filling in the date.
-     */
-    public interface OnDateSetListener {
-
-        /**
-         * @param CalendarDatePickerDialog The view associated with this listener.
-         * @param year The year that was set.
-         * @param monthOfYear The month that was set (0-11) for compatibility with {@link java.util.Calendar}.
-         * @param dayOfMonth The day of the month that was set.
-         */
-        void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth);
-    }
-
-    /**
-     * The callback used to notify other date picker components of a change in selected date.
-     */
-    public interface OnDateChangedListener {
-
-        public void onDateChanged();
-    }
-
-
-    public CalendarDatePickerDialog() {
-        // Empty constructor required for dialog fragment.
-    }
-
     /**
      * @param callBack How the parent is notified that the date is set.
      * @param year The initial year of the dialog.
      * @param monthOfYear The initial month of the dialog.
      * @param dayOfMonth The initial day of the dialog.
      */
+
+    // Todo changes..
+    private boolean mShowAsDialog = false;
+    private boolean mShowDoneButton = false;
+
+
+    public CalendarDatePickerDialog() {
+        // Empty constructor required for dialog fragment.
+    }
+
     public static CalendarDatePickerDialog newInstance(OnDateSetListener callBack, int year,
-            int monthOfYear,
-            int dayOfMonth) {
+                                                       int monthOfYear,
+                                                       int dayOfMonth, boolean showAsDialog, boolean showDoneButton) {
         CalendarDatePickerDialog ret = new CalendarDatePickerDialog();
-        ret.initialize(callBack, year, monthOfYear, dayOfMonth);
+        ret.initialize(callBack, year, monthOfYear, dayOfMonth, showAsDialog, showDoneButton);
         return ret;
     }
 
-    public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
+    public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth, boolean showAsDialog, boolean showDoneButton) {
         mCallBack = callBack;
         mCalendar.set(Calendar.YEAR, year);
         mCalendar.set(Calendar.MONTH, monthOfYear);
         mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        this.mShowAsDialog = showAsDialog;
+        this.mShowDoneButton = showDoneButton;
     }
 
     @Override
@@ -191,10 +161,19 @@ public class CalendarDatePickerDialog extends DialogFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
-        if (getShowsDialog()) {
-            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                             Bundle savedInstanceState) {
+
+        // Todo changes..
+
+//        Log.d(TAG, "onCreateView: ");
+//        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        // Todo changes..
+
+        if (mShowAsDialog) {
+            if (getShowsDialog()) {
+                getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            }
         }
 
         View view = inflater.inflate(R.layout.calendar_date_picker_dialog, null);
@@ -242,7 +221,16 @@ public class CalendarDatePickerDialog extends DialogFragment implements
         animation2.setDuration(ANIMATION_DURATION);
         mAnimator.setOutAnimation(animation2);
 
+
         mDoneButton = (Button) view.findViewById(R.id.done);
+
+        //Todo changes
+        if (mShowDoneButton) {
+            mDoneButton.setVisibility(View.VISIBLE);
+        } else {
+            mDoneButton.setVisibility(View.GONE);
+        }
+
         mDoneButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -252,7 +240,10 @@ public class CalendarDatePickerDialog extends DialogFragment implements
                     mCallBack.onDateSet(CalendarDatePickerDialog.this, mCalendar.get(Calendar.YEAR),
                             mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
                 }
-                dismiss();
+
+                if (mShowAsDialog) {
+                    dismiss();
+                }
             }
         });
 
@@ -353,17 +344,7 @@ public class CalendarDatePickerDialog extends DialogFragment implements
             String fullDateText = DateUtils.formatDateTime(getActivity(), millis, flags);
             Utils.tryAccessibilityAnnounce(mAnimator, fullDateText);
         }
-    }
 
-    public void setFirstDayOfWeek(int startOfWeek) {
-        if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
-            throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
-                    "Calendar.SATURDAY");
-        }
-        mWeekStart = startOfWeek;
-        if (mDayPickerView != null) {
-            mDayPickerView.onChange();
-        }
     }
 
     public void setYearRange(int startYear, int endYear) {
@@ -419,6 +400,12 @@ public class CalendarDatePickerDialog extends DialogFragment implements
         mCalendar.set(Calendar.DAY_OF_MONTH, day);
         updatePickers();
         updateDisplay(true);
+
+        // Todo changes..
+        if (mCallBack != null) {
+            mCallBack.onDateSet(CalendarDatePickerDialog.this, mCalendar.get(Calendar.YEAR),
+                    mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+        }
     }
 
     private void updatePickers() {
@@ -427,7 +414,6 @@ public class CalendarDatePickerDialog extends DialogFragment implements
             iterator.next().onDateChanged();
         }
     }
-
 
     @Override
     public CalendarDay getSelectedDay() {
@@ -449,6 +435,17 @@ public class CalendarDatePickerDialog extends DialogFragment implements
         return mWeekStart;
     }
 
+    public void setFirstDayOfWeek(int startOfWeek) {
+        if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
+            throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
+                    "Calendar.SATURDAY");
+        }
+        mWeekStart = startOfWeek;
+        if (mDayPickerView != null) {
+            mDayPickerView.onChange();
+        }
+    }
+
     @Override
     public void registerOnDateChangedListener(OnDateChangedListener listener) {
         mListeners.add(listener);
@@ -462,5 +459,34 @@ public class CalendarDatePickerDialog extends DialogFragment implements
     @Override
     public void tryVibrate() {
         mHapticFeedbackController.tryVibrate();
+    }
+
+    /**
+     * The callback used to indicate the user is done filling in the date.
+     */
+    public interface OnDateSetListener {
+
+        /**
+         * @param CalendarDatePickerDialog The view associated with this listener.
+         * @param year                     The year that was set.
+         * @param monthOfYear              The month that was set (0-11) for compatibility with {@link java.util.Calendar}.
+         * @param dayOfMonth               The day of the month that was set.
+         */
+        void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth);
+    }
+
+    /**
+     * The callback used to notify other date picker components of a change in selected date.
+     */
+    public interface OnDateChangedListener {
+
+        public void onDateChanged();
+    }
+
+    // Todo changes..
+    public void gotoSelectedDate(){
+        CalendarDay selectedDay = new CalendarDay(mCalendar);
+        updatePickers();
+        updateDisplay(true);
     }
 }

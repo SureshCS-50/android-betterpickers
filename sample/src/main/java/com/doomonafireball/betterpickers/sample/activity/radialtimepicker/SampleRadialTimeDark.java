@@ -40,8 +40,11 @@ public class SampleRadialTimeDark extends BaseSampleActivity
                 FragmentManager fm = getSupportFragmentManager();
                 DateTime now = DateTime.now();
                 RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog
-                        .newInstance(SampleRadialTimeDark.this, now.getHourOfDay(), now.getMinuteOfHour(),
-                                DateFormat.is24HourFormat(SampleRadialTimeDark.this));
+                        .newInstance(SampleRadialTimeDark.this, now.getHourOfDay(),
+                                now.getMinuteOfHour(),
+                                DateFormat.is24HourFormat(SampleRadialTimeDark.this),
+                                true,
+                                true);
                 timePickerDialog.setThemeDark(true);
                 timePickerDialog.show(fm, FRAG_TAG_TIME_PICKER);
             }

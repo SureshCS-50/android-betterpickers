@@ -37,8 +37,12 @@ public class SampleRadialTimeCustom extends BaseSampleActivity
                 FragmentManager fm = getSupportFragmentManager();
                 DateTime now = DateTime.now();
                 RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog
-                        .newInstance(SampleRadialTimeCustom.this, now.getHourOfDay(), now.getMinuteOfHour(),
-                                DateFormat.is24HourFormat(SampleRadialTimeCustom.this));
+                        .newInstance(SampleRadialTimeCustom.this,
+                                now.getHourOfDay(),
+                                now.getMinuteOfHour(),
+                                DateFormat.is24HourFormat(SampleRadialTimeCustom.this),
+                                true,
+                                true);
                 timePickerDialog.setThemeCustom(R.style.MyCustomBetterPickersRadialTimePickerDialog);
                 timePickerDialog.show(fm, FRAG_TAG_TIME_PICKER);
             }

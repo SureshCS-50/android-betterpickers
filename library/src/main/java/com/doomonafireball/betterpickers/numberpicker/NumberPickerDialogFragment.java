@@ -55,13 +55,13 @@ public class NumberPickerDialogFragment extends DialogFragment {
     /**
      * Create an instance of the Picker (used internally)
      *
-     * @param reference an (optional) user-defined reference, helpful when tracking multiple Pickers
-     * @param themeResId the style resource ID for theming
-     * @param minNumber (optional) the minimum possible number
-     * @param maxNumber (optional) the maximum possible number
+     * @param reference           an (optional) user-defined reference, helpful when tracking multiple Pickers
+     * @param themeResId          the style resource ID for theming
+     * @param minNumber           (optional) the minimum possible number
+     * @param maxNumber           (optional) the maximum possible number
      * @param plusMinusVisibility (optional) View.VISIBLE, View.INVISIBLE, or View.GONE
-     * @param decimalVisibility (optional) View.VISIBLE, View.INVISIBLE, or View.GONE
-     * @param labelText (optional) text to add as a label
+     * @param decimalVisibility   (optional) View.VISIBLE, View.INVISIBLE, or View.GONE
+     * @param labelText           (optional) text to add as a label
      * @return a Picker!
      */
     public static NumberPickerDialogFragment newInstance(int reference, int themeResId, Integer minNumber,
@@ -165,7 +165,7 @@ public class NumberPickerDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.number_picker_dialog, null);
         mSet = (Button) v.findViewById(R.id.set_button);
@@ -243,19 +243,19 @@ public class NumberPickerDialogFragment extends DialogFragment {
     }
 
     /**
-     * This interface allows objects to register for the Picker's set action.
-     */
-    public interface NumberPickerDialogHandler {
-
-        void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber);
-    }
-
-    /**
      * Attach a Vector of handlers to be notified in addition to the Fragment's Activity and target Fragment.
      *
      * @param handlers a Vector of handlers
      */
     public void setNumberPickerDialogHandlers(Vector<NumberPickerDialogHandler> handlers) {
         mNumberPickerDialogHandlers = handlers;
+    }
+
+    /**
+     * This interface allows objects to register for the Picker's set action.
+     */
+    public interface NumberPickerDialogHandler {
+
+        void onDialogNumberSet(int reference, int number, double decimal, boolean isNegative, double fullNumber);
     }
 }

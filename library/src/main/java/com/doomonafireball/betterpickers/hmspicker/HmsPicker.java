@@ -1,5 +1,7 @@
 package com.doomonafireball.betterpickers.hmspicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -14,8 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.doomonafireball.betterpickers.R;
 
 
 public class HmsPicker extends LinearLayout implements Button.OnClickListener, Button.OnLongClickListener {
@@ -317,32 +317,7 @@ public class HmsPicker extends LinearLayout implements Button.OnClickListener, B
         return mInput[1] * 10 + mInput[0];
     }
 
-    /**
-     * Set the current hours, minutes, and seconds on the picker.
-     *
-     * @param hours the input hours value
-     * @param minutes the input minutes value
-     * @param seconds the input seconds value
-     */
-    public void setTime(int hours, int minutes, int seconds) {
-        mInput[4] = hours;
-        mInput[3] = minutes / 10;
-        mInput[2] = minutes % 10;
-        mInput[1] = seconds / 10;
-        mInput[0] = seconds % 10;
-
-        for (int i=4; i>=0; i--) {
-            if (mInput[i] > 0) {
-                mInputPointer = i;
-                break;
-            }
-        }
-
-        updateKeypad();
-    }
-
-
-  @Override
+    @Override
     public Parcelable onSaveInstanceState() {
         final Parcelable parcel = super.onSaveInstanceState();
         final SavedState state = new SavedState(parcel);
@@ -440,5 +415,29 @@ public class HmsPicker extends LinearLayout implements Button.OnClickListener, B
             mLeft.setContentDescription(null);
             mRight.setContentDescription(null);
         }
+    }
+
+    /**
+     * Set the current hours, minutes, and seconds on the picker.
+     *
+     * @param hours the input hours value
+     * @param minutes the input minutes value
+     * @param seconds the input seconds value
+     */
+    public void setTime(int hours, int minutes, int seconds) {
+        mInput[4] = hours;
+        mInput[3] = minutes / 10;
+        mInput[2] = minutes % 10;
+        mInput[1] = seconds / 10;
+        mInput[0] = seconds % 10;
+
+        for (int i=4; i>=0; i--) {
+            if (mInput[i] > 0) {
+                mInputPointer = i;
+                break;
+            }
+        }
+
+        updateKeypad();
     }
 }

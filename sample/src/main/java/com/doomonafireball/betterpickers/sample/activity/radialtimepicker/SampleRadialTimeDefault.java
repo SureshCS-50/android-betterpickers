@@ -50,8 +50,12 @@ public class SampleRadialTimeDefault extends BaseSampleActivity
             public void onClick(View v) {
                 DateTime now = DateTime.now();
                 RadialTimePickerDialog timePickerDialog = RadialTimePickerDialog
-                        .newInstance(SampleRadialTimeDefault.this, now.getHourOfDay(), now.getMinuteOfHour(),
-                                DateFormat.is24HourFormat(SampleRadialTimeDefault.this));
+                        .newInstance(SampleRadialTimeDefault.this,
+                                now.getHourOfDay(),
+                                now.getMinuteOfHour(),
+                                DateFormat.is24HourFormat(SampleRadialTimeDefault.this),
+                                true,
+                                true);
                 if (mHasDialogFrame) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 

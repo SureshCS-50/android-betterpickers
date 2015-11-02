@@ -1,5 +1,9 @@
 package com.doomonafireball.betterpickers.expirationpicker;
 
+import com.doomonafireball.betterpickers.R;
+import com.doomonafireball.betterpickers.widget.UnderlinePageIndicatorPicker;
+import com.doomonafireball.betterpickers.datepicker.DatePicker;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -19,10 +23,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.doomonafireball.betterpickers.R;
-import com.doomonafireball.betterpickers.datepicker.DatePicker;
-import com.doomonafireball.betterpickers.widget.UnderlinePageIndicatorPicker;
-
 import java.util.Calendar;
 
 
@@ -36,7 +36,7 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
     protected int mMonthInput = -1;
     protected int mYearInput[] = new int[mYearInputSize];
     protected int mYearInputPointer = -1;
-    protected int mMinimumYear;
+    protected int mCurrentYear;
     protected final Button mMonths[] = new Button[12];
     protected final Button mYearNumbers[] = new Button[10];
     protected Button mYearLeft, mYearRight;
@@ -100,7 +100,7 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
         mDeleteDrawableSrcResId = R.drawable.ic_backspace_dark;
         mCheckDrawableSrcResId = R.drawable.ic_check_dark;
 
-        mMinimumYear = Calendar.getInstance().get(Calendar.YEAR);
+        mCurrentYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     protected int getLayoutId() {
@@ -142,7 +142,7 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
      * @param year the minimum year to restrict the picker to
      */
     public void setMinYear(int year) {
-        mMinimumYear = year;
+        mCurrentYear = year;
     }
 
     private void restyleViews() {
@@ -209,8 +209,8 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
         mDelete.setOnClickListener(this);
         mDelete.setOnLongClickListener(this);
 
-        addClickedYearNumber(mMinimumYear / 1000);
-        addClickedYearNumber((mMinimumYear % 1000) / 100);
+        addClickedYearNumber(mCurrentYear / 1000);
+        addClickedYearNumber((mCurrentYear % 1000) / 100);
         mKeyboardPager.setCurrentItem(mKeyboardPager.getCurrentItem() - 1, true);
 
         setLeftRightEnabled();
@@ -477,9 +477,9 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
      */
     private void updateYearKeys() {
         if (mYearInputPointer == 1) {
-            setYearMinKeyRange((mMinimumYear % 100) / 10);
+            setYearMinKeyRange((mCurrentYear % 100) / 10);
         } else if (mYearInputPointer == 2) {
-            setYearMinKeyRange(Math.max(0, (mMinimumYear % 100) - (mYearInput[0] * 10)));
+            setYearMinKeyRange(Math.max(0, (mCurrentYear % 100) - (mYearInput[0] * 10)));
         } else if (mYearInputPointer == 3) {
             setYearKeyRange(-1);
         }
@@ -518,7 +518,7 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
         if (mSetButton == null) {
             return;
         }
-        mSetButton.setEnabled(getYear() >= mMinimumYear && getMonthOfYear() > 0);
+        mSetButton.setEnabled(getYear() >= mCurrentYear && getMonthOfYear() > 0);
     }
 
     /**
@@ -556,8 +556,8 @@ public class ExpirationPicker extends LinearLayout implements Button.OnClickList
      * @param monthOfYear the new zero-indexed month to set
      */
     public void setExpiration(int year, int monthOfYear) {
-        if (year != 0 && year < mMinimumYear) {
-            throw new IllegalArgumentException("Years past the minimum set year are not allowed. Specify " + mMinimumYear + " or above.");
+        if (year != 0 && year < mCurrentYear) {
+            throw new IllegalArgumentException("Past years are not allowed. Specify " + mCurrentYear + " or above.");
         }
 
         mMonthInput = monthOfYear;

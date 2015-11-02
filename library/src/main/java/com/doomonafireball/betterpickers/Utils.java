@@ -16,15 +16,15 @@
 
 package com.doomonafireball.betterpickers;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
-import android.text.format.Time;
-import android.view.View;
-
 import com.nineoldandroids.animation.Keyframe;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.view.animation.AnimatorProxy;
+
+import android.annotation.SuppressLint;
+import android.os.Build;
+import android.text.format.Time;
+import android.view.View;
 
 import java.util.Calendar;
 
@@ -36,6 +36,9 @@ public class Utils {
     public static final int MONDAY_BEFORE_JULIAN_EPOCH = Time.EPOCH_JULIAN_DAY - 3;
     public static final int PULSE_ANIMATOR_DURATION = 544;
 
+    // Alpha level for time picker selection.
+    public static final int SELECTED_ALPHA = 51;
+    public static final int SELECTED_ALPHA_THEME_DARK = 102;
     // Alpha level for fully opaque.
     public static final int FULL_ALPHA = 255;
 

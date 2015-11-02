@@ -1,11 +1,11 @@
 package com.doomonafireball.betterpickers.hmspicker;
 
+import com.doomonafireball.betterpickers.hmspicker.HmsPickerDialogFragment.HmsPickerDialogHandler;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-
-import com.doomonafireball.betterpickers.hmspicker.HmsPickerDialogFragment.HmsPickerDialogHandler;
 
 import java.util.Vector;
 
@@ -107,6 +107,10 @@ public class HmsPickerBuilder {
         return this;
     }
 
+    private static int bounded(int i, int min, int max) {
+        return Math.min(Math.max(i, min), max);
+    }
+
     /**
      * Instantiate and show the Picker
      */
@@ -127,15 +131,9 @@ public class HmsPickerBuilder {
             fragment.setTargetFragment(targetFragment, 0);
         }
         fragment.setHmsPickerDialogHandlers(mHmsPickerDialogHandlers);
-
         if ((mHours | mMinutes | mSeconds) != 0) {
             fragment.setTime(mHours, mMinutes, mSeconds);
         }
-
         fragment.show(ft, "hms_dialog");
-    }
-
-    private static int bounded(int i, int min, int max) {
-        return Math.min(Math.max(i, min), max);
     }
 }

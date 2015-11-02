@@ -1,5 +1,7 @@
 package com.doomonafireball.betterpickers.numberpicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -14,8 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.doomonafireball.betterpickers.R;
 
 import java.math.BigDecimal;
 
@@ -588,7 +588,6 @@ public class NumberPicker extends LinearLayout implements Button.OnClickListener
             mInput[mInputPointer] = k;
         }
     }
-
 
     private static class SavedState extends BaseSavedState {
 

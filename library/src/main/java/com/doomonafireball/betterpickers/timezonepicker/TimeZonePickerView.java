@@ -16,6 +16,8 @@
 
 package com.doomonafireball.betterpickers.timezonepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -35,8 +37,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import com.doomonafireball.betterpickers.R;
 
 public class TimeZonePickerView extends LinearLayout implements TextWatcher, OnItemClickListener,
         OnClickListener {

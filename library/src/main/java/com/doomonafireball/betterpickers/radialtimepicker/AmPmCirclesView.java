@@ -16,6 +16,9 @@
 
 package com.doomonafireball.betterpickers.radialtimepicker;
 
+import com.doomonafireball.betterpickers.R;
+import com.doomonafireball.betterpickers.Utils;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -26,9 +29,6 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 
-import com.doomonafireball.betterpickers.R;
-import com.doomonafireball.betterpickers.Utils;
-
 import java.text.DateFormatSymbols;
 
 /**
@@ -37,6 +37,10 @@ import java.text.DateFormatSymbols;
 public class AmPmCirclesView extends View {
 
     private static final String TAG = "AmPmCirclesView";
+
+    // Alpha level for selected circle.
+    private static final int SELECTED_ALPHA = Utils.SELECTED_ALPHA;
+    private static final int SELECTED_ALPHA_THEME_DARK = Utils.SELECTED_ALPHA_THEME_DARK;
 
     private final Paint mPaint = new Paint();
     private int mSelectedAlpha;
@@ -72,9 +76,10 @@ public class AmPmCirclesView extends View {
         }
 
         Resources res = context.getResources();
-        mUnselectedColor = res.getColor(R.color.bpWhite);
-        mSelectedColor = res.getColor(R.color.bpBlue);
+        mUnselectedColor = res.getColor(R.color.white);
+        mSelectedColor = res.getColor(R.color.blue);
         mAmPmTextColor = res.getColor(R.color.ampm_text_color);
+        mSelectedAlpha = SELECTED_ALPHA;
         String typefaceFamily = res.getString(R.string.sans_serif);
         Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
         mPaint.setTypeface(tf);
@@ -97,9 +102,9 @@ public class AmPmCirclesView extends View {
 
     /* package */
     void setTheme(TypedArray themeColors) {
-        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor1, R.color.bpWhite);
-        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpAccentColor,R.color.bpBlue);
-        mAmPmTextColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainTextColor, R.color.ampm_text_color);
+        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainColor1, getResources().getColor(R.color.white));
+        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpAccentColor,getResources().getColor(R.color.blue));
+        mAmPmTextColor = themeColors.getColor(R.styleable.BetterPickersRadialTimePickerDialog_bpMainTextColor, getResources().getColor(R.color.ampm_text_color));
         mSelectedAlpha = themeColors.getInt(R.styleable.BetterPickersRadialTimePickerDialog_bpSelectionAlpha, 100);
     }
 

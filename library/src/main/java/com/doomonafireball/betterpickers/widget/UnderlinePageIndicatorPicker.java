@@ -15,6 +15,8 @@
  */
 package com.doomonafireball.betterpickers.widget;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -29,8 +31,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-
-import com.doomonafireball.betterpickers.R;
 
 /**
  * Draws a line for each page. The current page line is colored differently than the unselected page lines.

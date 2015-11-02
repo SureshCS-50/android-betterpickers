@@ -1,11 +1,11 @@
 package com.doomonafireball.betterpickers.numberpicker;
 
+import com.doomonafireball.betterpickers.numberpicker.NumberPickerDialogFragment.NumberPickerDialogHandler;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-
-import com.doomonafireball.betterpickers.numberpicker.NumberPickerDialogFragment.NumberPickerDialogHandler;
 
 import java.math.BigDecimal;
 import java.util.Vector;
@@ -75,6 +75,17 @@ public class NumberPickerBuilder {
     }
 
     /**
+     * Set a minimum number required
+     *
+     * @param minNumber the minimum required number
+     * @return the current Builder object
+     */
+    public NumberPickerBuilder setMinNumber(int minNumber) {
+        this.minNumber = minNumber;
+        return this;
+    }
+
+    /**
      * Set initial value to display
      */
     public NumberPickerBuilder setCurrentNumber(Integer number) {
@@ -107,17 +118,6 @@ public class NumberPickerBuilder {
             this.currentNumberValue = numberInput[0].intValue();
             this.currentDecimalValue = numberInput[1].doubleValue();
         }
-        return this;
-    }
-
-    /**
-     * Set a minimum number required
-     *
-     * @param minNumber the minimum required number
-     * @return the current Builder object
-     */
-    public NumberPickerBuilder setMinNumber(int minNumber) {
-        this.minNumber = minNumber;
         return this;
     }
 
@@ -213,8 +213,16 @@ public class NumberPickerBuilder {
         ft.addToBackStack(null);
 
         final NumberPickerDialogFragment fragment = NumberPickerDialogFragment
-                .newInstance(mReference, styleResId, minNumber, maxNumber, plusMinusVisibility, decimalVisibility,
-                        labelText, currentNumberValue, currentDecimalValue, currentSignValue);
+                .newInstance(mReference,
+                        styleResId,
+                        minNumber,
+                        maxNumber,
+                        plusMinusVisibility,
+                        decimalVisibility,
+                        labelText,
+                        currentNumberValue,
+                        currentDecimalValue,
+                        currentSignValue);
         if (targetFragment != null) {
             fragment.setTargetFragment(targetFragment, 0);
         }

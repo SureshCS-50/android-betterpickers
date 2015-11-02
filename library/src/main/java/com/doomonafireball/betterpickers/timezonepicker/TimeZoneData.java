@@ -16,6 +16,8 @@
 
 package com.doomonafireball.betterpickers.timezonepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -23,8 +25,6 @@ import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.SparseArray;
-
-import com.doomonafireball.betterpickers.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -26,22 +26,22 @@
     </style>
 
     <style name="BetterPickersRadialTimePickerDialog">
-        <item name="bpMainColor1">@color/bpWhite</item>
+        <item name="bpMainColor1">@color/white</item>
         <item name="bpMainColor2">@color/circle_background</item>
-        <item name="bpAccentColor">@color/bpBlue</item>
+        <item name="bpAccentColor">@color/blue</item>
         <item name="bpMainTextColor">@color/numbers_text_color</item>
         <item name="bpDoneTextColor">@color/done_text_color_normal</item>
-        <item name="bpLineColor">@color/bpLine_background</item>
+        <item name="bpLineColor">@color/line_background</item>
         <item name="bpDoneBackgroundColor">@drawable/done_background_color</item>
         <item name="bpSelectionAlpha">51</item>
     </style>
     <style name="BetterPickersRadialTimePickerDialog.Dark">
-        <item name="bpMainColor1">@color/bpDark_gray</item>
-        <item name="bpMainColor2">@color/bpLight_gray</item>
-        <item name="bpAccentColor">@color/bpRed</item>
-        <item name="bpMainTextColor">@color/bpWhite</item>
-        <item name="bpDoneTextColor">@color/bpWhite</item>
-        <item name="bpLineColor">@color/bpLine_dark</item>
+        <item name="bpMainColor1">@color/dark_gray</item>
+        <item name="bpMainColor2">@color/light_gray</item>
+        <item name="bpAccentColor">@color/red</item>
+        <item name="bpMainTextColor">@color/white</item>
+        <item name="bpDoneTextColor">@color/white</item>
+        <item name="bpLineColor">@color/line_dark</item>
         <item name="bpDoneBackgroundColor">@drawable/done_background_color_dark</item>
         <item name="bpSelectionAlpha">102</item>
     </style>

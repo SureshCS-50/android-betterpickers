@@ -16,6 +16,10 @@
 
 package com.doomonafireball.betterpickers.calendardatepicker;
 
+import com.doomonafireball.betterpickers.R;
+import com.doomonafireball.betterpickers.Utils;
+import com.doomonafireball.betterpickers.calendardatepicker.MonthAdapter.CalendarDay;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -36,10 +40,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-
-import com.doomonafireball.betterpickers.R;
-import com.doomonafireball.betterpickers.Utils;
-import com.doomonafireball.betterpickers.calendardatepicker.MonthAdapter.CalendarDay;
 
 import java.security.InvalidParameterException;
 import java.util.Calendar;
@@ -194,8 +194,8 @@ public abstract class MonthView extends View {
         mMonthTitleTypeface = res.getString(R.string.sans_serif);
 
         mDayTextColor = res.getColor(R.color.date_picker_text_normal);
-        mTodayNumberColor = res.getColor(R.color.bpBlue);
-        mMonthTitleColor = res.getColor(R.color.bpWhite);
+        mTodayNumberColor = res.getColor(R.color.blue);
+        mMonthTitleColor = res.getColor(R.color.white);
         mMonthTitleBGColor = res.getColor(R.color.circle_background);
 
         mStringBuilder = new StringBuilder(50);

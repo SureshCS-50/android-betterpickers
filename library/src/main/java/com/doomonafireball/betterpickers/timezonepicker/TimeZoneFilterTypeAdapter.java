@@ -16,6 +16,8 @@
 
 package com.doomonafireball.betterpickers.timezonepicker;
 
+import com.doomonafireball.betterpickers.R;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.TextUtils;
@@ -28,8 +30,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
-import com.doomonafireball.betterpickers.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

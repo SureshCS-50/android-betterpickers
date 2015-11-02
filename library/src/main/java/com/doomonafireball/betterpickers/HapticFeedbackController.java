@@ -1,9 +1,7 @@
 package com.doomonafireball.betterpickers;
 
-import android.Manifest;
 import android.app.Service;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.SystemClock;
@@ -16,14 +14,10 @@ import android.provider.Settings;
 public class HapticFeedbackController {
     private static final int VIBRATE_DELAY_MS = 125;
     private static final int VIBRATE_LENGTH_MS = 5;
-
-
     private final Context mContext;
     private final ContentObserver mContentObserver;
-
     private Vibrator mVibrator;
     private boolean mIsGloballyEnabled;
-    private boolean mHasPermissions;
     private long mLastVibrate;
 
     public HapticFeedbackController(Context context) {
@@ -37,11 +31,8 @@ public class HapticFeedbackController {
     }
 
     private static boolean checkGlobalSetting(Context context) {
-        return Settings.System.getInt(context.getContentResolver(), Settings.System.HAPTIC_FEEDBACK_ENABLED, 0) == 1;
-    }
-
-    private static boolean checkAppPermissions(Context context) {
-        return context.checkCallingOrSelfPermission(Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED;
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.HAPTIC_FEEDBACK_ENABLED, 0) == 1;
     }
 
     /**
@@ -52,7 +43,6 @@ public class HapticFeedbackController {
 
         // Setup a listener for changes in haptic feedback settings
         mIsGloballyEnabled = checkGlobalSetting(mContext);
-        mHasPermissions = checkAppPermissions(mContext);
         Uri uri = Settings.System.getUriFor(Settings.System.HAPTIC_FEEDBACK_ENABLED);
         mContext.getContentResolver().registerContentObserver(uri, false, mContentObserver);
     }
@@ -70,13 +60,17 @@ public class HapticFeedbackController {
      * happen if we have vibrated very recently.
      */
     public void tryVibrate() {
-        if (mVibrator != null && mIsGloballyEnabled && mHasPermissions) {
-            long now = SystemClock.uptimeMillis();
-            // We want to try to vibrate each individual tick discretely.
-            if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
-                mVibrator.vibrate(VIBRATE_LENGTH_MS);
-                mLastVibrate = now;
+        try {
+            if (mVibrator != null && mIsGloballyEnabled) {
+                long now = SystemClock.uptimeMillis();
+                // We want to try to vibrate each individual tick discretely.
+                if (now - mLastVibrate >= VIBRATE_DELAY_MS) {
+                    mVibrator.vibrate(VIBRATE_LENGTH_MS);
+                    mLastVibrate = now;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
